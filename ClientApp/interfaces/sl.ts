@@ -28,7 +28,7 @@
     }
 
     export interface Stops {
-        Stop: Stop[];
+        StopLocation: Stop[];
     }
 
     export interface Departure {
