@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container, Segment, Button } from "semantic-ui-react";
 import { ApiService } from "../services/ApiService";
-import { update } from "react-imperator";
+import { connect } from "react-imperator";
 import SearchBar from "./SearchBar";
 import { ShowStops } from "./ShowStops";
 

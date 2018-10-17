@@ -7,16 +7,18 @@ interface IShowStopProps {
     stops: Stop[];
 }
 
-export const ShowStops = connect((props: IShowStopProps) =>
-    <List>
+export const ShowStops = connect((props: IShowStopProps) => {
+    console.log(props);
+    return <List>
         {props.stops.map(stop =>
             <List.Item key={stop.id}>
                 <List.Content>
-                    <List.Header>
+                    <List.Header as='a'>
                         {stop.name}
                     </List.Header>
-                    <List.Description>List description</List.Description>
                 </List.Content>
             </List.Item>)}
     </List>
+}
+
 );

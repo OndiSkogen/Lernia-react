@@ -8,7 +8,7 @@ export const ApiService = (() => {
                 .then<Stops>(resp => resp.json())
                 .then(list => {
                     console.log(list);
-                    update<Stop[]>("stops", () => list.Stop);
+                    update<Stop[]>("stops", () => list.StopLocation);
                 });
         }
     }
