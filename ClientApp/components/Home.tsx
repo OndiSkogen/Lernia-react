@@ -47,7 +47,7 @@ export class Home extends React.Component<{}, IHomeState> {
                 </ul>
             </Segment>
             <Segment>
-                {/* <ShowStops stops={[]} /> */}
+                <ShowStops stops={[]} />
             </Segment>
         </Container>;
     }

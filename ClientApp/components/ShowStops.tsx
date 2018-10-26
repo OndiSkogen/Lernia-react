@@ -7,13 +7,20 @@ interface IShowStopProps {
     stops: Stop[];
 }
 
+
+function handleClick(e: React.MouseEvent) {
+    e.preventDefault();
+    console.log('The link was clicked.');
+}
+
+
+
 export const ShowStops = connect((props: IShowStopProps) => {
-    console.log(props);
     return <List>
         {props.stops.map(stop =>
             <List.Item key={stop.id}>
                 <List.Content>
-                    <List.Header as='a'>
+                    <List.Header as='a' onClick={handleClick}>
                         {stop.name}
                     </List.Header>
                 </List.Content>
