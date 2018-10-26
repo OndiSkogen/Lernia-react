@@ -8,7 +8,10 @@ namespace LerniaReact.Controllers
     public class ApiController : Controller
     {
         const string SEARCH_KEY = "a11698df-8e0f-4387-b2a2-26d8a511fac1"; 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6e751d47aaf3bab65c59cc6320cd8c629f582dba
         const string DEPARTURES_KEY = "563b8279-abf4-4404-9438-7aa0060b41dc";
         const string DEVIATIONS_KEY = "";
         const string TRIP_KEY = "";
@@ -20,10 +23,10 @@ namespace LerniaReact.Controllers
             await Query($"https://api.resrobot.se/v2/location.name?key={SEARCH_KEY}&input={term}&format=json");
         }
 
-        [Route("search/{id}")]
-        public async Task Departures([FromRoute] string id)
+        [Route("departures/{deps}")]
+        public async Task Departures([FromRoute] string deps)
         {
-            await Query($"https://api.resrobot.se/v2/departureBoard?key={DEPARTURES_KEY}&id={id}&format=json");
+            await Query($"https://api.resrobot.se/v2/departureBoard?key={DEPARTURES_KEY}&id={deps}&format=json");
         }
 
         [Route("deviations/{siteId}")]
