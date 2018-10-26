@@ -1,13 +1,17 @@
- import * as React from "react";
+import * as React from "react";
 import { Container, Segment, Button } from "semantic-ui-react";
-import { ApiService } from "../services/ApiService";
+import { ApiService, ApiService2 } from "../services/ApiService";
 import { connect } from "react-imperator";
 import SearchBar from "./SearchBar";
 import { ShowStops } from "./ShowStops";
+import { ShowDepartures } from "./ShowDepartures";
+import  Filter from "./Filter";
 
 interface IHomeState {
     text: string;
-    list: string[];
+    showStops: boolean;
+    showDeps: boolean;
+    showFilter: boolean;
 }
 
 export class Home extends React.Component<{}, IHomeState> {
@@ -15,7 +19,9 @@ export class Home extends React.Component<{}, IHomeState> {
         super(props);
         this.state = {
             text: "",
-            list: []
+            showStops: false,
+            showDeps: false,
+            showFilter: false
         };
     }
 
@@ -27,27 +33,37 @@ export class Home extends React.Component<{}, IHomeState> {
         if (e.which != 13) {
             return;
         }
+        this.setState({showStops: true})
         return ApiService.search(this.state.text);
     }
 
     private onButtonClick = () => {
-        return ApiService.search(this.state.text);
+        this.setState({showStops: true})
+        return ApiService.search(this.state.text);        
+    }
+    private onLiClick = (id: string) => {
+        this.setState({showStops: false})
+        return ApiService2.departures(id);
     }
 
     public render(): JSX.Element {
-        const { text, list } = this.state;
         return <Container>
             <Segment>
-                <input value={text} onKeyUp={this.onKeyUp} onChange={this.onTextChange} />
-                <button onClick={this.onButtonClick} disabled={!(text.trim())}>Sök</button>
+                <SearchBar searchText={this.state.text}
+                    enterSearch={this.onKeyUp}
+                    click={() => this.onButtonClick()}
+                    change={this.onTextChange} />
             </Segment>
             <Segment>
-                <ul>
-                    {list.map((item, index) => <li key={index}>{item}</li>)}
-                </ul>
-            </Segment>
-            <Segment>
-                <ShowStops stops={[]} />
+                if (showStops) {
+                    <ShowStops stops={[]} click={this.onLiClick}/>
+                }
+                if (showFilter) {
+                    <Filter />
+                }
+                if (showDeps) {
+                    <ShowDepartures deps={[]} />
+                }                
             </Segment>
         </Container>;
     }
