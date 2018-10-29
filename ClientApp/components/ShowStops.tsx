@@ -17,7 +17,7 @@ function handleClick(e: React.MouseEvent) {
 
 
 export const ShowStops = connect((props: IShowStopProps) => {
-    return <List>
+    return  <List>
         {props.stops.map(stop =>
             <List.Item key={stop.id}>
                 <List.Content>

@@ -5,6 +5,7 @@ const SearchBar = (props: any) => {
         <div>
             <input type='text' value={props.searchText} onKeyUp={props.enterSearch} onChange={props.change} />
             <button onClick={props.click} disabled={!(props.searchText.trim())}>Sök</button>
+            <button onClick={props.clearClick}>Rensa</button>
         </div>
     )
 }

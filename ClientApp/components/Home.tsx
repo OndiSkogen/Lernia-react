@@ -5,13 +5,12 @@ import { connect } from "react-imperator";
 import SearchBar from "./SearchBar";
 import { ShowStops } from "./ShowStops";
 import { ShowDepartures } from "./ShowDepartures";
-import  Filter from "./Filter";
+import Filter from "./Filter";
 
 interface IHomeState {
     text: string;
     showStops: boolean;
     showDeps: boolean;
-    showFilter: boolean;
 }
 
 export class Home extends React.Component<{}, IHomeState> {
@@ -20,8 +19,7 @@ export class Home extends React.Component<{}, IHomeState> {
         this.state = {
             text: "",
             showStops: false,
-            showDeps: false,
-            showFilter: false
+            showDeps: false
         };
     }
 
@@ -33,38 +31,60 @@ export class Home extends React.Component<{}, IHomeState> {
         if (e.which != 13) {
             return;
         }
-        this.setState({showStops: true})
+        this.setState({ showStops: true })
         return ApiService.search(this.state.text);
     }
 
     private onButtonClick = () => {
-        this.setState({showStops: true})
-        return ApiService.search(this.state.text);        
+        this.setState({ showStops: true })
+        return ApiService.search(this.state.text);
     }
+
     private onLiClick = (id: string) => {
-        this.setState({showStops: false})
+        this.setState({ showStops: false, showDeps: true })
         return ApiService2.departures(id);
     }
 
+    private onClearClick = () => {
+        this.setState({ showDeps: false, showStops: false, text: '' })
+    }
+
     public render(): JSX.Element {
+        const showStops = this.state.showStops;
+        const showDeps = this.state.showDeps;
+        if (showStops) {
+            return <Container>
+                <Segment>
+                    <SearchBar searchText={this.state.text}
+                        enterSearch={this.onKeyUp}
+                        click={() => this.onButtonClick()}
+                        clearClick={() => this.onClearClick()}
+                        change={this.onTextChange} />
+                    <ShowStops stops={[]} click={this.onLiClick} />
+                </Segment>
+            </Container>
+        }
+        if (showDeps) {
+            return <Container>
+                <Segment>
+                    <SearchBar searchText={this.state.text}
+                        enterSearch={this.onKeyUp}
+                        click={() => this.onButtonClick()}
+                        clearClick={() => this.onClearClick()}
+                        change={this.onTextChange} />
+                    <Filter />
+                    <ShowDepartures deps={[]} />
+                </Segment>
+            </Container>;
+        }
         return <Container>
             <Segment>
                 <SearchBar searchText={this.state.text}
                     enterSearch={this.onKeyUp}
                     click={() => this.onButtonClick()}
+                    clearClick={() => this.onClearClick()}
                     change={this.onTextChange} />
             </Segment>
-            <Segment>
-                if (showStops) {
-                    <ShowStops stops={[]} click={this.onLiClick}/>
-                }
-                if (showFilter) {
-                    <Filter />
-                }
-                if (showDeps) {
-                    <ShowDepartures deps={[]} />
-                }                
-            </Segment>
-        </Container>;
+        </Container>
     }
 }
