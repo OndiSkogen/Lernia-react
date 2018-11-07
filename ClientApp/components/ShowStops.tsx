@@ -8,14 +8,6 @@ interface IShowStopProps {
     click: (id: string) => any;
 }
 
-
-function handleClick(e: React.MouseEvent) {
-    e.preventDefault();
-    console.log('The link was clicked.');
-}
-
-
-
 export const ShowStops = connect((props: IShowStopProps) => {
     return  <List>
         {props.stops.map(stop =>

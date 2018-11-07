@@ -1,5 +1,5 @@
 import { update } from "react-imperator";
-import { Stop, Stops, Deps, Product } from "../interfaces/sl";
+import { Stop, Stops, Product } from "../interfaces/sl";
 
 export const ApiService = (() => {
     return {

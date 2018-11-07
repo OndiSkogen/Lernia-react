@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Container, Segment, Button } from "semantic-ui-react";
 import { ApiService, ApiService2 } from "../services/ApiService";
-import { connect } from "react-imperator";
 import SearchBar from "./SearchBar";
 import { ShowStops } from "./ShowStops";
 import { ShowDepartures } from "./ShowDepartures";
@@ -11,6 +10,9 @@ interface IHomeState {
     text: string;
     showStops: boolean;
     showDeps: boolean;
+    buss: boolean;
+    tunnelbana: boolean;
+    pendel: boolean;
 }
 
 export class Home extends React.Component<{}, IHomeState> {
@@ -19,7 +21,10 @@ export class Home extends React.Component<{}, IHomeState> {
         this.state = {
             text: "",
             showStops: false,
-            showDeps: false
+            showDeps: false,
+            buss: true,
+            tunnelbana: true,
+            pendel: true
         };
     }
 
@@ -49,6 +54,17 @@ export class Home extends React.Component<{}, IHomeState> {
         this.setState({ showDeps: false, showStops: false, text: '' })
     }
 
+    handleInputChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
+        const target = event.currentTarget;
+        const value = target.checked;
+        const name: keyof IHomeState = target.name as keyof IHomeState;
+        const state = {
+            [name]: value
+        };
+
+        this.setState(state as any);
+    }
+
     public render(): JSX.Element {
         const showStops = this.state.showStops;
         const showDeps = this.state.showDeps;
@@ -63,8 +79,7 @@ export class Home extends React.Component<{}, IHomeState> {
                     <ShowStops stops={[]} click={this.onLiClick} />
                 </Segment>
             </Container>
-        }
-        if (showDeps) {
+        } else if (showDeps) {
             return <Container>
                 <Segment>
                     <SearchBar searchText={this.state.text}
@@ -72,19 +87,20 @@ export class Home extends React.Component<{}, IHomeState> {
                         click={() => this.onButtonClick()}
                         clearClick={() => this.onClearClick()}
                         change={this.onTextChange} />
-                    <Filter />
-                    <ShowDepartures deps={[]} />
+                    <Filter buss={this.state.buss} tunnelbana={this.state.tunnelbana} pendel={this.state.pendel} change={this.handleInputChange} />
+                    <ShowDepartures buss={this.state.buss} tunnelbana={this.state.tunnelbana} pendel={this.state.pendel} />
                 </Segment>
             </Container>;
+        } else {
+            return <Container>
+                <Segment>
+                    <SearchBar searchText={this.state.text}
+                        enterSearch={this.onKeyUp}
+                        click={() => this.onButtonClick()}
+                        clearClick={() => this.onClearClick()}
+                        change={this.onTextChange} />
+                </Segment>
+            </Container>
         }
-        return <Container>
-            <Segment>
-                <SearchBar searchText={this.state.text}
-                    enterSearch={this.onKeyUp}
-                    click={() => this.onButtonClick()}
-                    clearClick={() => this.onClearClick()}
-                    change={this.onTextChange} />
-            </Segment>
-        </Container>
     }
 }
